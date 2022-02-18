@@ -8,6 +8,7 @@ public:
 	cDobleLista();
 	cDobleLista* sig, * ant;
 	cDobleLista* crearLista();
+	cDobleLista* eliminarNodo(cDobleLista*);
 	void imprimirListaDobleSiguiente(cDobleLista*);
 	void imprimirListaDobleAnterior(cDobleLista*);
 };
@@ -18,7 +19,7 @@ cDobleLista::cDobleLista() {
 }
 
 cDobleLista* cDobleLista::crearLista() {
-	cDobleLista* lista = NULL, *aux = NULL, *aux1 = NULL;
+	cDobleLista* lista = NULL, * aux = NULL, * aux1 = NULL;
 	int listaSize;
 
 	cout << "Ingresa el tamaño de la lista: ";
@@ -46,8 +47,33 @@ cDobleLista* cDobleLista::crearLista() {
 	return lista;
 }
 
+cDobleLista* cDobleLista::eliminarNodo(cDobleLista *l) {
+	cDobleLista* aux = l,* aux1;
+	int position;
+	cout << "Que posicion deseas eliminar" << endl;
+	cin >> position;
+	if (position == 1) {
+		aux = aux->sig;
+		aux->ant = NULL;
+		l->sig = NULL;
+		l=aux;
+	}
+	else {
+	for (int i = 0; i < position - 2; i++)
+	{
+		aux = aux->sig;
+	}
+	aux1 = aux->sig->sig;
+	aux->sig->sig = NULL;
+	aux1->ant->ant = NULL;
+	aux->sig = aux1;
+	aux1->ant = aux;
+	}	
+	return l;
+}
 void cDobleLista::imprimirListaDobleSiguiente(cDobleLista *l) {
 	cDobleLista* aux;
+	cout << "Imprimiendo en de adelante a atras" << endl;
 	for (aux = l; aux != NULL; aux = aux->sig) {
 		cout << aux->numero << endl;
 	}
@@ -58,18 +84,31 @@ void cDobleLista::imprimirListaDobleAnterior(cDobleLista *l) {
 	while (aux->sig != NULL) {
 		aux = aux->sig;
 	}
+	cout << "Imprimiendo al de atras a delante" << endl;
 	while (aux != NULL) {
-		cout << aux->numero;
+		cout << aux->numero<<endl;
 		aux = aux->ant;
 	}
 }
 
 int main() {
-
+	int res = 1;
 	cDobleLista* lista = new cDobleLista();
 	cDobleLista* recuperarLista = lista->crearLista();
 	lista->imprimirListaDobleSiguiente(recuperarLista);
 	lista->imprimirListaDobleAnterior(recuperarLista);
+	do {
+	cout << "Deseas eliminar algun Nodo" << endl;
+	cout << "(1) Para si" << endl;
+	cout << "(2) Para no" << endl;
+	cout << ": ";
+	cin >> res;
+	if (res == 1) {
+	recuperarLista = lista->eliminarNodo(recuperarLista);
+	lista->imprimirListaDobleSiguiente(recuperarLista);
+	lista->imprimirListaDobleAnterior(recuperarLista);
+	}
+	} while (res == 1);
 	return 0;
 }
 // Tarea Agregar nodos en listas dobles
