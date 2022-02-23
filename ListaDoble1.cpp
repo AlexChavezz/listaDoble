@@ -91,24 +91,50 @@ void cDobleLista::imprimirListaDobleAnterior(cDobleLista* l) {
 		aux = aux->ant;
 	}
 }
-
+/*
 cDobleLista* cDobleLista::crearNodo(cDobleLista* lista) {
-	cDobleLista* newNodo = new cDobleLista();
+	cDobleLista* newNodo, *aux = new cDobleLista();
+	aux = lista;
+
 	cout << "Valor del nuevo nodo: ";
 	cin >> newNodo->numero;
-	newNodo->ant = NULL;
-	newNodo->sig = NULL;
 
-	if (lista == NULL) {
-		lista = newNodo;
-	}else{
+	// a;adir nuevo nodo
 		lista->ant = newNodo;
 		newNodo->sig = lista;
-	}
+		newNodo->sig->sig =
 	lista = newNodo;
 	return lista;
-}
+}*/
+cDobleLista* cDobleLista::crearNodo(cDobleLista* l) {
+	cDobleLista* aux, * aux1 = l, * aux2;
+	aux = new cDobleLista();
+	int pos;
+	cout << "En que posicion quieres a;adir el nodo: " << endl;
+	cin >> pos;
 
+	if (pos == 1) {
+		aux = new cDobleLista();
+		cout << "Ingresa el nuevo valor" << endl;
+		cin >> aux->numero;
+		aux->sig = l;
+		l->ant = aux;
+	}
+	else {
+		cout << "Ingresa el nuevo valor" << endl;
+		cin >> aux->numero;
+		for (int i = 0; i < pos - 2; i++) {
+			aux1 = aux1->sig;
+		}
+
+		aux2 = aux1->sig;
+		aux1->sig = aux;
+		aux->ant = aux1;
+		aux->sig = aux2;
+		aux2->ant = aux;
+	}
+	return l;
+}
 int main() {
 	int res = 1;
 	cDobleLista* lista = new cDobleLista();
